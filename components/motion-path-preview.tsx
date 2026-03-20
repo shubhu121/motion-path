@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { IconWandSparkleFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
@@ -11,7 +11,8 @@ export type MotionPathPreviewProps = {
     y: number[];
     times: number[];
     duration: number;
-    pathKey: number;
+    /** Stable id when path semantics change; must not churn on container resize. */
+    pathKey: string;
     /** Measured editor playground size when the path was built (px) */
     editorW: number;
     editorH: number;
@@ -34,14 +35,17 @@ export function MotionPathPreview({
     const boxRef = useRef<HTMLDivElement>(null);
     const [previewSize, setPreviewSize] = useState({ w: 0, h: 0 });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const el = boxRef.current;
         if (!el) return;
-        const ro = new ResizeObserver(() => {
-            setPreviewSize({ w: el.clientWidth, h: el.clientHeight });
-        });
+        const sync = () => {
+            const w = Math.round(el.clientWidth);
+            const h = Math.round(el.clientHeight);
+            setPreviewSize((prev) => (prev.w === w && prev.h === h ? prev : { w, h }));
+        };
+        sync();
+        const ro = new ResizeObserver(sync);
         ro.observe(el);
-        setPreviewSize({ w: el.clientWidth, h: el.clientHeight });
         return () => ro.disconnect();
     }, []);
 
@@ -140,6 +144,7 @@ export function MotionPathPreview({
                                 times,
                                 ease: 'linear',
                                 repeat: Infinity,
+                                repeatType: 'loop',
                                 repeatDelay: 0.6,
                             }}
                         />

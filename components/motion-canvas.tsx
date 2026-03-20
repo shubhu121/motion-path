@@ -123,7 +123,6 @@ export function MotionCanvas() {
     const [bounds, setBounds] = useState({ w: 0, h: 0 });
     const [exportNormalized, setExportNormalized] = useState(false);
     const [copiedCode, setCopiedCode] = useState(false);
-    const [pathKey, setPathKey] = useState(0);
     const { theme } = useTheme();
     const recordingStartRef = useRef<number | null>(null);
     const animationFrameRef = useRef<number | null>(null);
@@ -138,10 +137,15 @@ export function MotionCanvas() {
         const el = playgroundRef.current;
         if (!el) return;
         const ro = new ResizeObserver(() => {
-            setBounds({ w: el.clientWidth, h: el.clientHeight });
+            const w = Math.round(el.clientWidth);
+            const h = Math.round(el.clientHeight);
+            setBounds((prev) => (prev.w === w && prev.h === h ? prev : { w, h }));
         });
         ro.observe(el);
-        setBounds({ w: el.clientWidth, h: el.clientHeight });
+        setBounds({
+            w: Math.round(el.clientWidth),
+            h: Math.round(el.clientHeight),
+        });
         return () => ro.disconnect();
     }, []);
 
@@ -376,6 +380,16 @@ export function MotionCanvas() {
 
     const exportPath = useMemo(() => generateMotionPath(), [generateMotionPath]);
 
+    /** Remount preview only when the path or export mode changes — not on playground resize (avoids flicker / broken repeat in prod). */
+    const previewPathKey = useMemo(() => {
+        if (points.length === 0) return 'empty';
+        const sorted = [...points].sort((a, b) => a.time - b.time);
+        const sig = sorted
+            .map((p) => `${p.x.toFixed(3)},${p.y.toFixed(3)},${p.time.toFixed(4)}`)
+            .join(';');
+        return `${sig}|n:${exportNormalized ? 1 : 0}|k:${exportPath.exportKind}`;
+    }, [points, exportNormalized, exportPath.exportKind]);
+
     /** First keyframe dot position in editor px (matches snippet: motion is relative to this start) */
     const pathStartTopLeft = useMemo(() => {
         if (points.length === 0) return { x: 0, y: 0 };
@@ -385,12 +399,6 @@ export function MotionCanvas() {
         const ph = Math.max(bounds.h, 1);
         return logicalCenterToPixelTopLeft(p0.x, p0.y, pw, ph);
     }, [points, bounds.w, bounds.h]);
-
-    useEffect(() => {
-        if (exportPath.x.length > 0) {
-            setPathKey((k) => k + 1);
-        }
-    }, [exportPath]);
 
     const getCodeSnippet = () => {
         const path = exportPath;
@@ -722,7 +730,7 @@ export function AnimatedElement() {
                         y={exportPath.y}
                         times={exportPath.times}
                         duration={exportPath.duration}
-                        pathKey={pathKey}
+                        pathKey={previewPathKey}
                         editorW={Math.max(bounds.w, 1)}
                         editorH={Math.max(bounds.h, 1)}
                         pathStartTopLeft={pathStartTopLeft}
