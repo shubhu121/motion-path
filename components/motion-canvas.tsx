@@ -16,7 +16,6 @@ import {
 import { Copy, Play, Pause, RotateCcw } from 'lucide-react';
 import { MotionPathPreview } from '@/components/motion-path-preview';
 import { IconCircleCompose2FillDuo18, IconLocation2FillDuo18, IconTimer2FillDuo18, IconInboxArrowDownFillDuo18, IconGamingButtonsFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
-import Logo from './logo/logo';
 import { useTheme } from 'next-themes';
 
 const REF_W = 800;
@@ -539,10 +538,10 @@ export function AnimatedElement() {
     }, [points]);
 
     return (
-        <div className="mx-auto min-h-svh w-full max-w-7xl px-4 py-8">
-            <header>
+        <div className="flex w-full min-w-0 flex-col gap-6">
+            <header className="min-w-0">
                 <Card className="gap-2 border-0 bg-transparent py-0 shadow-none ring-0">
-                    <CardHeader className="space-y-2 border-border px-0 pb-6">
+                    <CardHeader className="space-y-2 border-border px-0 pb-0">
                        
                         <p className="max-w-2xl text-sm text-muted-foreground">
                             Record uses Framer&apos;s{' '}
@@ -556,9 +555,9 @@ export function AnimatedElement() {
                 </Card>
             </header>
 
-            <div className="grid gap-3 lg:grid-cols-2 lg:items-start">
-                <div className="space-y-3">
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-2 lg:items-start lg:gap-6">
+                <div className="flex min-w-0 flex-col gap-4">
+                    <div className="grid min-w-0 grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
                         <Card size="sm">
                             <CardHeader className="gap-2">
                                 <CardDescription className="flex items-center gap-2 font-medium">
@@ -619,10 +618,10 @@ export function AnimatedElement() {
                                 click to add waypoints and drag the dot to edit.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="px-4 pt-0">
                             <div
                                 ref={playgroundRef}
-                                className="relative aspect-800/500 w-full overflow-hidden rounded-lg bg-accent"
+                                className="relative aspect-800/500 w-full min-w-0 overflow-hidden rounded-lg bg-accent"
                             >
                                 <canvas
                                     ref={canvasRef}
@@ -700,7 +699,7 @@ export function AnimatedElement() {
                     </Card>
                 </div>
 
-                <div className="space-y-3 lg:sticky lg:top-8">
+                <div className="flex min-w-0 flex-col gap-4 lg:sticky lg:top-6 lg:self-start">
                     <MotionPathPreview
                         x={exportPath.x}
                         y={exportPath.y}
@@ -716,7 +715,7 @@ export function AnimatedElement() {
                         <CardHeader>
                             <h2 className="font-heading text-sm font-medium">Coordinate modes</h2>
                         </CardHeader>
-                        <CardContent className="text-sm text-muted-foreground px-4">
+                        <CardContent className="px-4 pb-4 text-sm text-muted-foreground">
                             <ul className="list-inside list-disc space-y-1">
                                 <li>
                                     <strong className="text-foreground">Recording</strong>: samples{' '}
@@ -756,7 +755,7 @@ export function AnimatedElement() {
                             </Button>
                         </CardAction>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="px-4 pb-4 pt-0">
                         <pre className="overflow-x-auto rounded-lg border border-border bg-background p-4 font-mono text-xs text-foreground">
                             {getCodeSnippet()}
                         </pre>

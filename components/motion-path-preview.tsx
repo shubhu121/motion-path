@@ -2,16 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-import { Sparkles } from 'lucide-react';
-import { IconWandSparkleFillDuo18,  } from 'nucleo-ui-essential-fill-duo-18';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { IconWandSparkleFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 const DOT = 24;
 
 export type MotionPathPreviewProps = {
@@ -101,25 +93,27 @@ export function MotionPathPreview({
     ]);
 
     return (
-        <Card className="flex flex-col">
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                    <IconWandSparkleFillDuo18 className="size-6" />
-                    Live preview
-                </CardTitle>
-                <CardDescription>
-                    Keyframes are scaled from the editor playground ({Math.round(editorW)} ×{' '}
-                    {Math.round(editorH)} px) into this panel so motion matches the editor. The dot
-                    is anchored at the first keyframe, same as the editor.
-                </CardDescription>
-                <CardAction>
-                    <span className="text-xs text-muted-foreground">Auto-loop</span>
-                </CardAction>
+        <Card className="flex min-w-0 flex-col">
+            <CardHeader className="gap-2">
+                <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                    <div className="min-w-0 flex-1 space-y-1">
+                        <CardTitle className="flex items-center gap-2 text-lg">
+                            <IconWandSparkleFillDuo18 className="size-6 shrink-0" aria-hidden />
+                            Live preview
+                        </CardTitle>
+                        <CardDescription>
+                            Keyframes scale from the editor ({Math.round(editorW)} ×{' '}
+                            {Math.round(editorH)} px) so motion matches. The dot starts at the first
+                            keyframe, same as the editor.
+                        </CardDescription>
+                    </div>
+                    <span className="shrink-0 text-xs text-muted-foreground sm:pt-1">Auto-loop</span>
+                </div>
             </CardHeader>
-            <CardContent className="flex min-h-0 flex-1 flex-col">
+            <CardContent className="flex min-h-0 flex-1 flex-col px-4 pb-4 pt-0">
                 <div
                     ref={boxRef}
-                    className="relative aspect-800/500 w-full overflow-hidden rounded-lg bg-accent"
+                    className="relative aspect-800/500 w-full min-w-0 overflow-hidden rounded-lg bg-accent"
                 >
                     {!hasPath ? (
                         <div className="flex h-full min-h-[140px] items-center justify-center px-4 text-center text-sm text-muted-foreground">

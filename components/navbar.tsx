@@ -37,7 +37,7 @@ export const Navbar = () => {
             variants={navbarVariants as Variants}
             initial="hidden"
             animate="visible"
-            className="w-full flex justify-between items-center px-4 py-3 border rounded-xl rounded-t-none border-border mb-6 max-w-7xl mx-auto bg-muted/50"
+            className="flex w-full items-center justify-between rounded-xl rounded-t-none border border-border bg-muted/50 px-4 py-3"
         >
             <motion.h1
                 className="font-heading text-3xl font-light tracking-tight"
