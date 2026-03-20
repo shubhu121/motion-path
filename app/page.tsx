@@ -1,10 +1,9 @@
-import { MotionCanvas } from "@/components/motion-canvas"
-import { AnimatedElement } from "@/components/test"
+import { MotionCanvas } from "@/components/motion-canvas";
 
 export default function Page() {
-  return (
-    <div className="min-h-svh bg-background">
-      <MotionCanvas />
-    </div>
-  )
+    return (
+        <main id="main-content" className="min-h-svh bg-background">
+            <MotionCanvas />
+        </main>
+    );
 }

@@ -13,7 +13,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { Copy, Play, Pause, RotateCcw, Activity, Clock, MapPin } from 'lucide-react';
+import { Copy, Play, Pause, RotateCcw } from 'lucide-react';
 import { MotionPathPreview } from '@/components/motion-path-preview';
 import { IconCircleCompose2FillDuo18, IconLocation2FillDuo18, IconTimer2FillDuo18, IconInboxArrowDownFillDuo18, IconGamingButtonsFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 import Logo from './logo/logo';
@@ -542,17 +542,17 @@ export function AnimatedElement() {
             <header>
                 <Card className="gap-2 border-0 bg-transparent py-0 shadow-none ring-0">
                     <CardHeader className="space-y-2 border-border px-0 pb-6">
-                        <CardTitle className="text-3xl font-light tracking-tight">
-                        <Logo className="size-10 inline-block mr-2" />     Motion Path
-                        </CardTitle>
-                        <CardDescription className="max-w-2xl text-sm">
+                        <h1 className="font-heading text-3xl font-light tracking-tight">
+                            <Logo className="mr-2 inline-block size-10" aria-hidden /> Motion Path
+                        </h1>
+                        <p className="max-w-2xl text-sm text-muted-foreground">
                             Record uses Framer&apos;s{' '}
                             <code className="rounded bg-muted px-1 py-0.5 text-foreground">
                                 info.offset
                             </code>{' '}
                             (px from drag start) so exports line up with transform animations.
                             Free-draw paths export as pixel deltas for your current playground size.
-                        </CardDescription>
+                        </p>
                     </CardHeader>
                 </Card>
             </header>
@@ -611,9 +611,10 @@ export function AnimatedElement() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle className="text-lg flex items-center gap-2">
-                                <IconCircleCompose2FillDuo18 className="size-6" />
-                                Editor</CardTitle>
+                            <h2 className="font-heading flex items-center gap-2 text-lg font-medium">
+                                <IconCircleCompose2FillDuo18 className="size-6" aria-hidden />
+                                Editor
+                            </h2>
                             <CardDescription>
                                 Record to capture <code className="text-xs">info.offset</code>, or
                                 click to add waypoints and drag the dot to edit.
@@ -714,7 +715,7 @@ export function AnimatedElement() {
                     />
                     <Card>
                         <CardHeader>
-                            <CardTitle>Coordinate modes</CardTitle>
+                            <h2 className="font-heading text-sm font-medium">Coordinate modes</h2>
                         </CardHeader>
                         <CardContent className="text-sm text-muted-foreground px-4">
                             <ul className="list-inside list-disc space-y-1">
@@ -741,7 +742,7 @@ export function AnimatedElement() {
             {points.length > 0 && (
                 <Card>
                     <CardHeader className="border-b border-border">
-                        <CardTitle className="text-lg">Generated Code</CardTitle>
+                        <h2 className="font-heading text-lg font-medium">Generated Code</h2>
                         <CardAction className="flex items-center justify-between">
                             <span className="text-sm text-muted-foreground">
                                 {points.length} points
