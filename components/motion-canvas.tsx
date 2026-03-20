@@ -740,9 +740,9 @@ export function AnimatedElement() {
 
             {points.length > 0 && (
                 <Card>
-                    <CardHeader className="border-b border-border">
+                    <CardHeader className="">
                         <h2 className="font-heading text-lg font-medium">Generated Code</h2>
-                        <CardAction className="flex items-center justify-between">
+                        <CardAction className="flex items-center justify-between gap-2">
                             <span className="text-sm text-muted-foreground">
                                 {points.length} points
                             </span>
