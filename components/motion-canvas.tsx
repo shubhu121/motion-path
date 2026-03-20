@@ -31,6 +31,9 @@ const DOT_HALF = DOT / 2;
 const HIT_RADIUS_LOGICAL = 22;
 const SAMPLE_MS = 200;
 
+/** Set to false when path recording from drag is ready to ship again. */
+const RECORDING_COMING_SOON = true;
+
 interface Point {
     x: number;
     y: number;
@@ -313,6 +316,7 @@ export function MotionCanvas() {
     };
 
     const toggleRecording = () => {
+        if (RECORDING_COMING_SOON) return;
         if (!isRecording) {
             setPoints([]);
             setActivePointIndex(0);
@@ -547,12 +551,12 @@ export function AnimatedElement() {
                 <Card className="gap-2 border-0 bg-transparent py-0 shadow-none ring-0">
                     <CardHeader className="space-y-2 border-border px-0 pb-0">
                         <p className="max-w-2xl text-sm text-muted-foreground">
-                            Record uses Framer&apos;s{' '}
+                            Drag-based path recording (
                             <code className="rounded bg-muted px-1 py-0.5 text-foreground">
                                 info.offset
-                            </code>{' '}
-                            (px from drag start) so exports line up with transform animations.
-                            Free-draw paths export as pixel deltas for your current playground size.
+                            </code>
+                            ) is coming soon. For now, click to add waypoints and drag the dot to
+                            edit—exports use pixel deltas for your current playground size.
                         </p>
                     </CardHeader>
                 </Card>
@@ -619,8 +623,8 @@ export function AnimatedElement() {
                                 Editor
                             </h2>
                             <CardDescription>
-                                Record to capture <code className="text-xs">info.offset</code>, or
-                                click to add waypoints and drag the dot to edit.
+                                Click to add waypoints and drag the dot to edit. Drag-to-record (
+                                <code className="text-xs">info.offset</code>) is coming soon.
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="px-4 pt-0 flex-1 min-h-0 flex flex-col">
@@ -659,9 +663,18 @@ export function AnimatedElement() {
                                     onClick={toggleRecording}
                                     variant={isRecording ? 'destructive' : 'default'}
                                     className="w-full"
-                                    disabled={isPlaying}
+                                    disabled={isPlaying || RECORDING_COMING_SOON}
+                                    title={
+                                        RECORDING_COMING_SOON
+                                            ? 'Path recording will be available in a future update'
+                                            : undefined
+                                    }
                                 >
-                                    {isRecording ? 'Stop Recording' : 'Start Recording'}
+                                    {RECORDING_COMING_SOON
+                                        ? 'Recording — coming soon'
+                                        : isRecording
+                                          ? 'Stop Recording'
+                                          : 'Start Recording'}
                                 </Button>
                                 <div className="flex gap-2">
                                     <Button
@@ -724,9 +737,11 @@ export function AnimatedElement() {
                         <CardContent className="px-4 pb-4 text-sm text-muted-foreground">
                             <ul className="list-inside list-disc space-y-1">
                                 <li>
-                                    <strong className="text-foreground">Recording</strong>: samples{' '}
-                                    <code className="text-xs">info.offset</code> (px from drag start).
-                                    Multiple separate drags in one take switch export to path pixels.
+                                    <strong className="text-foreground">Recording</strong>{' '}
+                                    <span className="text-foreground/80">(coming soon)</span>: will
+                                    sample <code className="text-xs">info.offset</code> (px from drag
+                                    start). Multiple separate drags in one take will switch export to
+                                    path pixels.
                                 </li>
                                 <li>
                                     <strong className="text-foreground">Free draw</strong>: click to
