@@ -1,6 +1,6 @@
 /** Canonical site URL for metadata, sitemap, and robots. Set in production (e.g. Vercel project env). */
 export function getSiteUrl(): string {
-    const raw = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+    const raw = process.env.NEXT_PUBLIC_SITE_URL ?? "https://motion-path.vercel.app"
     return raw.replace(/\/$/, "");
 }
 
@@ -26,5 +26,6 @@ export const siteConfig = {
         "path export",
         "React animation",
     ],
+    
     locale: "en_US",
 } as const;

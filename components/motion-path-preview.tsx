@@ -1,9 +1,10 @@
 'use client';
 
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { motion } from 'motion/react';
+import { easeIn, motion } from 'motion/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { IconWandSparkleFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
+import Logo from './logo/logo';
 const DOT = 24;
 
 export type MotionPathPreviewProps = {
@@ -50,7 +51,7 @@ export function MotionPathPreview({
     }, []);
 
     const hasPath = x.length > 0 && y.length > 0 && times.length > 0;
-    const dur = Math.max(duration, 0.01);
+    const dur = Math.max(duration, 0.03);
 
     const { left, top, scaledX, scaledY } = useMemo(() => {
         const pw = previewSize.w;
@@ -130,7 +131,7 @@ export function MotionPathPreview({
                     ) : (
                         <motion.div
                             key={pathKey}
-                            className="absolute z-10 size-6 cursor-default touch-none rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/20 ring-2 ring-emerald-400/40"
+                            className="absolute z-10 size-6 cursor-default touch-none rounded-full"
                             style={{
                                 left,
                                 top,
@@ -142,12 +143,14 @@ export function MotionPathPreview({
                             transition={{
                                 duration: dur,
                                 times,
-                                ease: 'linear',
+                                ease:"easeInOut",
                                 repeat: Infinity,
                                 repeatType: 'loop',
                                 repeatDelay: 0.6,
                             }}
-                        />
+                        >
+                            <Logo className='size-10' />
+                        </motion.div>
                     )}
                 </div>
             </CardContent>
