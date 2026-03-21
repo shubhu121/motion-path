@@ -39,7 +39,14 @@ export const metadata: Metadata = {
     openGraph: {
         type: "website",
         locale: siteConfig.locale,
-        url: "./og.png",
+        url: "/",
+        images: [
+            {
+                url: "./og.png",
+                width: 1200,
+                height: 630,
+            },
+        ],
         siteName: siteConfig.name,
         title: siteConfig.title.default,
         description: siteConfig.description,
